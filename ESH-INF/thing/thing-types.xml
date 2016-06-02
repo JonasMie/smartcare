@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="smartcare"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+    <thing-type id="sc">
+        <label>SmartCare Binding Thing</label>
+        <description>SmartCare thing for SmartCare Binding</description>
+
+        <channels>
+            <channel id="sonos" typeId="sonos"/>
+            <channel id="hue" typeId="hue"/>
+        </channels>
+    </thing-type>
+
+    <channel-type id="sonos">
+        <item-type>Switch</item-type>
+        <label>SmartCare Sonos Binding Channel</label>
+        <description>Channel for SmartCare/Sonos Binding</description>
+    </channel-type>
+       <channel-type id="hue">
+        <item-type>Switch</item-type>
+        <label>SmartCare Hue Binding Channel</label>
+        <description>Channel for SmartCare/Hue Binding</description>
+    </channel-type>
+</thing:thing-descriptions>
