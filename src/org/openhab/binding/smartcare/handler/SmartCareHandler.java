@@ -17,12 +17,16 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.library.types.HSBType;
+import org.eclipse.smarthome.core.library.types.IncreaseDecreaseType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.library.types.PlayPauseType;
@@ -51,8 +55,12 @@ public class SmartCareHandler extends BaseThingHandler {
 
     private Logger logger = LoggerFactory.getLogger(SmartCareHandler.class);
     private JSONArray deviceData = null;
+    private JSONArray sleepData = null;
     ScheduledFuture<?> refreshJob;
     private BigDecimal refresh;
+
+    private SimpleDateFormat parserSDF;
+    private boolean autoAdapt = true;
 
     @Override
     public void initialize() {
@@ -89,12 +97,13 @@ public class SmartCareHandler extends BaseThingHandler {
             @Override
             public void run() {
                 try {
-                    boolean success = updateDeviceData();
+                    boolean success = updateData();
                     if (success) {
                         updateState(new ChannelUID(getThing().getUID(), CHANNEL_SONOS),
                                 getState(deviceIds.get(CHANNEL_SONOS)));
                         updateState(new ChannelUID(getThing().getUID(), CHANNEL_HUE),
                                 getState(deviceIds.get(CHANNEL_HUE)));
+                        postCommand(new ChannelUID(getThing().getUID(), CHANNEL_SLEEP), getSleepState());
                     }
                 } catch (Exception e) {
                     logger.debug("Exception occurred during execution: {}", e.getMessage(), e);
@@ -108,7 +117,7 @@ public class SmartCareHandler extends BaseThingHandler {
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         if (command instanceof RefreshType) {
-            boolean success = updateDeviceData();
+            boolean success = updateData();
             if (success) {
                 switch (channelUID.getId()) {
                     case CHANNEL_SONOS:
@@ -121,15 +130,16 @@ public class SmartCareHandler extends BaseThingHandler {
         }
     }
 
-    private synchronized boolean updateDeviceData() {
+    private synchronized boolean updateData() {
 
         try {
             deviceData = getDeviceData();
+            sleepData = getSleepData();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if (deviceData != null) {
+        if (deviceData != null && sleepData != null) {
             updateStatus(ThingStatus.ONLINE);
             return true;
         }
@@ -138,6 +148,10 @@ public class SmartCareHandler extends BaseThingHandler {
 
     private JSONArray getDeviceData() throws IOException {
         return readJsonFromUrl(API_URL);
+    }
+
+    private JSONArray getSleepData() throws IOException {
+        return readJsonFromUrl(SLEEP_URL);
     }
 
     public JSONArray readJsonFromUrl(String url) throws IOException {
@@ -181,5 +195,37 @@ public class SmartCareHandler extends BaseThingHandler {
             }
         }
         return UnDefType.UNDEF;
+    }
+
+    private Command getSleepState() {
+        parserSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (sleepData != null) {
+            for (int i = 0; i < sleepData.length(); i++) {
+                JSONObject sleepcycle = sleepData.getJSONObject(i);
+                Date from;
+                Date to;
+                Date now = new Date();
+                try {
+                    from = parserSDF.parse(sleepcycle.getString("datefrom"));
+                    if (sleepcycle.isNull("dateto") && now.after(from)) {
+                        // person is sleeping
+                        return IncreaseDecreaseType.DECREASE;
+                    } else {
+                        to = parserSDF.parse(sleepcycle.getString("dateto"));
+                        if (now.after(from) && now.before(to)) {
+                            // person is sleeping
+
+                        }
+                    }
+                } catch (JSONException | ParseException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (autoAdapt) {
+            return IncreaseDecreaseType.INCREASE;
+        }
+        return null;
     }
 }

@@ -28,10 +28,12 @@ public class SmartCareBindingConstants {
     // API-Url
     public final static String API_URL_OLD = "http://www.smart-home-care.de/public/patientdevice.json";
     public final static String API_URL = "http://smartcare.mi.hdm-stuttgart.de/api/public/patientdevice.json";
+    public final static String SLEEP_URL = "http://smartcare.mi.hdm-stuttgart.de/api/public/sleepcycle.json";
 
     // List of all Channel ids
     public final static String CHANNEL_SONOS = "sonos";
     public final static String CHANNEL_HUE = "hue";
+    public final static String CHANNEL_SLEEP = "sleep";
 
     public final static Map<String, Integer> deviceIds = new HashMap<String, Integer>() {
 

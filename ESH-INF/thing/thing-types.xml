@@ -11,17 +11,27 @@
         <channels>
             <channel id="sonos" typeId="sonos"/>
             <channel id="hue" typeId="hue"/>
+            <channel typeId="sleep" id="sleep"></channel>
         </channels>
     </thing-type>
 
     <channel-type id="sonos">
-        <item-type>Switch</item-type>
+        <item-type>Player</item-type>
         <label>SmartCare Sonos Binding Channel</label>
         <description>Channel for SmartCare/Sonos Binding</description>
+        <category>Player</category>
     </channel-type>
-       <channel-type id="hue">
+    
+    <channel-type id="hue">
         <item-type>Switch</item-type>
         <label>SmartCare Hue Binding Channel</label>
         <description>Channel for SmartCare/Hue Binding</description>
+    </channel-type>
+    
+     <channel-type id="sleep">
+        <item-type>Dimmer</item-type>
+        <label>SmartCare Sleep Binding Channel</label>
+        <description>Channel for SmartCare/Sleep Binding</description>
+        <category>Dimmer</category>
     </channel-type>
 </thing:thing-descriptions>
