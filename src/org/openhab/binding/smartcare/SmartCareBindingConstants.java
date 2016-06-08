@@ -33,6 +33,7 @@ public class SmartCareBindingConstants {
     // List of all Channel ids
     public final static String CHANNEL_SONOS = "sonos";
     public final static String CHANNEL_HUE = "hue";
+    public final static String CHANNEL_DOOR = "door";
     public final static String CHANNEL_SLEEP = "sleep";
 
     public final static Map<String, Integer> deviceIds = new HashMap<String, Integer>() {
@@ -40,6 +41,7 @@ public class SmartCareBindingConstants {
         {
             put(CHANNEL_SONOS, 4);
             put(CHANNEL_HUE, 3);
+            put(CHANNEL_DOOR, 5);
         };
     };
 

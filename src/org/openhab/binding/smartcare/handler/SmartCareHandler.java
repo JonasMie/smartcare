@@ -99,10 +99,16 @@ public class SmartCareHandler extends BaseThingHandler {
                 try {
                     boolean success = updateData();
                     if (success) {
+                        // Update Sonos state
                         updateState(new ChannelUID(getThing().getUID(), CHANNEL_SONOS),
                                 getState(deviceIds.get(CHANNEL_SONOS)));
+                        // Update Hue state
                         updateState(new ChannelUID(getThing().getUID(), CHANNEL_HUE),
                                 getState(deviceIds.get(CHANNEL_HUE)));
+                        // Update door state
+                        updateState(new ChannelUID(getThing().getUID(), CHANNEL_DOOR),
+                                getState(deviceIds.get(CHANNEL_DOOR)));
+                        // Update Sleeping state
                         postCommand(new ChannelUID(getThing().getUID(), CHANNEL_SLEEP), getSleepState());
                     }
                 } catch (Exception e) {
@@ -119,13 +125,7 @@ public class SmartCareHandler extends BaseThingHandler {
         if (command instanceof RefreshType) {
             boolean success = updateData();
             if (success) {
-                switch (channelUID.getId()) {
-                    case CHANNEL_SONOS:
-                        updateState(channelUID, getState(deviceIds.get(channelUID.getId())));
-                        break;
-                    case CHANNEL_HUE:
-                        break;
-                }
+                updateState(channelUID, getState(deviceIds.get(channelUID.getId())));
             }
         }
     }

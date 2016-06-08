@@ -12,6 +12,7 @@
             <channel id="sonos" typeId="sonos"/>
             <channel id="hue" typeId="hue"/>
             <channel typeId="sleep" id="sleep"></channel>
+            <channel typeId="door" id="door"></channel>
         </channels>
     </thing-type>
 
@@ -26,6 +27,12 @@
         <item-type>Switch</item-type>
         <label>SmartCare Hue Binding Channel</label>
         <description>Channel for SmartCare/Hue Binding</description>
+    </channel-type>
+    
+    <channel-type id="door">
+        <item-type>Switch</item-type>
+        <label>SmartCare Door Binding Channel</label>
+        <description>Channel for SmartCare/Door Binding</description>
     </channel-type>
     
      <channel-type id="sleep">
