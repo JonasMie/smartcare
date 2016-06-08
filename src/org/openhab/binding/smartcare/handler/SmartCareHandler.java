@@ -108,6 +108,9 @@ public class SmartCareHandler extends BaseThingHandler {
                         // Update door state
                         updateState(new ChannelUID(getThing().getUID(), CHANNEL_DOOR),
                                 getState(deviceIds.get(CHANNEL_DOOR)));
+                        // Update rollershutter state
+                        updateState(new ChannelUID(getThing().getUID(), CHANNEL_ROLLERSHUTTER),
+                                getState(deviceIds.get(CHANNEL_ROLLERSHUTTER)));
                         // Update Sleeping state
                         postCommand(new ChannelUID(getThing().getUID(), CHANNEL_SLEEP), getSleepState());
                     }
