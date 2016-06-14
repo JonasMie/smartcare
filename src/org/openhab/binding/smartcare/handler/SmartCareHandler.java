@@ -28,6 +28,7 @@ import org.eclipse.smarthome.config.core.Configuration;
 import org.eclipse.smarthome.core.library.types.HSBType;
 import org.eclipse.smarthome.core.library.types.IncreaseDecreaseType;
 import org.eclipse.smarthome.core.library.types.OnOffType;
+import org.eclipse.smarthome.core.library.types.OpenClosedType;
 import org.eclipse.smarthome.core.library.types.PercentType;
 import org.eclipse.smarthome.core.library.types.PlayPauseType;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -57,10 +58,10 @@ public class SmartCareHandler extends BaseThingHandler {
     private JSONArray deviceData = null;
     private JSONArray sleepData = null;
     ScheduledFuture<?> refreshJob;
+
     private BigDecimal refresh;
 
     private SimpleDateFormat parserSDF;
-    private boolean autoAdapt = true;
 
     @Override
     public void initialize() {
@@ -192,6 +193,7 @@ public class SmartCareHandler extends BaseThingHandler {
                             add(OnOffType.class);
                             add(PercentType.class);
                             add(PlayPauseType.class);
+                            add(OpenClosedType.class);
                         }
                     }, patientDevice.getString("state"));
                 }
@@ -226,9 +228,6 @@ public class SmartCareHandler extends BaseThingHandler {
                 }
             }
         }
-        if (autoAdapt) {
-            return IncreaseDecreaseType.INCREASE;
-        }
-        return null;
+        return IncreaseDecreaseType.INCREASE;
     }
 }

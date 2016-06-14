@@ -13,7 +13,23 @@
             <channel id="hue" typeId="hue"/>
             <channel typeId="sleep" id="sleep"></channel>
             <channel typeId="door" id="door"></channel>
+            <channel typeId="rollershutter" id="rollershutter"></channel>
+            <channel typeId="sleepAdapt" id="sleepAdapt"></channel>
         </channels>
+        <config-description>
+            <parameter name="autoAdapt" type="boolean" required="true">
+                <label>Trigger on sleep</label>
+                <description>
+                The volume will be lowered when you sleep and raised when you wake up. 
+                </description>
+                <default>true</default>
+            </parameter>
+            <parameter name="refresh" type="integer" min="1">
+                <label>Refresh interval</label>
+                <description>Specifies the refresh interval in seconds.</description>
+                <default>60</default>
+            </parameter>
+        </config-description>
     </thing-type>
 
     <channel-type id="sonos">
@@ -30,9 +46,15 @@
     </channel-type>
     
     <channel-type id="door">
-        <item-type>Switch</item-type>
+        <item-type>Contact</item-type>
         <label>SmartCare Door Binding Channel</label>
         <description>Channel for SmartCare/Door Binding</description>
+    </channel-type>
+    
+       <channel-type id="rollershutter">
+        <item-type>Contact</item-type>
+        <label>SmartCare Rollershutter Binding Channel</label>
+        <description>Channel for SmartCare/Rollershutter Binding</description>
     </channel-type>
     
      <channel-type id="sleep">
@@ -40,5 +62,11 @@
         <label>SmartCare Sleep Binding Channel</label>
         <description>Channel for SmartCare/Sleep Binding</description>
         <category>Dimmer</category>
+    </channel-type>
+    <channel-type id="sleepAdapt">
+        <item-type>Switch</item-type>
+        <label>SmartCare SleepAdapt Binding Channel</label>
+        <description>Channel for SmartCare/SleepAdapt Binding</description>
+        <category>Switch</category>
     </channel-type>
 </thing:thing-descriptions>
