@@ -58,7 +58,6 @@ public class SmartCareHandler extends BaseThingHandler {
     private JSONArray deviceData = null;
     private JSONArray sleepData = null;
     ScheduledFuture<?> refreshJob;
-
     private BigDecimal refresh;
 
     private SimpleDateFormat parserSDF;
