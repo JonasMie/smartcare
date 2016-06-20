@@ -17,13 +17,6 @@
             <channel typeId="sleepAdapt" id="sleepAdapt"></channel>
         </channels>
         <config-description>
-            <parameter name="autoAdapt" type="boolean" required="true">
-                <label>Trigger on sleep</label>
-                <description>
-                The volume will be lowered when you sleep and raised when you wake up. 
-                </description>
-                <default>true</default>
-            </parameter>
             <parameter name="refresh" type="integer" min="1">
                 <label>Refresh interval</label>
                 <description>Specifies the refresh interval in seconds.</description>
